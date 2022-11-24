@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellogo
+  labels:
+    app: hellogo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hellogo
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: hellogo
+    spec:
+      containers:
+        - name: hellogo
+          image: priyantha125/hellogo
+          envFrom:
+            - configMapRef:
+                name: hellogo-configmap
+            - secretRef:
+                name: hellogo-secret
